@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable no-unused-vars */
+import React from 'react';
+import GlobalStyles from './components/GlobalStyles';
+import { Header } from './components/Header';
+import { LiveMatches } from './components/LiveMatches/LiveMatches';
+import { UpcomingMatches } from './components/UpcomingMatches/UpcomingMatches';
+import { PastMatches } from './components/PastMatches/PastMatches';
+import { Footer } from './components/Footer';
+import { useMatches } from './components/Hooks/useMatches';
+import { useGameSelector } from './components/Hooks/useGameSelector';
+import Filters from './components/Filters/Filters';
+import { useTournaments } from './components/Hooks/useTournaments';
+import { useFilteredTournaments } from './components/Hooks/useFilteredTournaments';
 
-function App() {
+const App = () => {
+
+  const games = useGameSelector();
+  const tournaments = useTournaments(games.game);
+  const filteredTournaments = useFilteredTournaments(tournaments);
+  const matches = useMatches(games.game, filteredTournaments.filteredTournaments);
+  
+  console.log(matches);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyles />
+      <Header />
+      <Filters {...games} {...tournaments} {...filteredTournaments} />
+      <LiveMatches matches={matches.matches.running} />
+      <UpcomingMatches matches={matches.matches.upcoming} />
+      <PastMatches matches={matches.matches.past} />
+      <Footer />
+    </> 
   );
 }
 
