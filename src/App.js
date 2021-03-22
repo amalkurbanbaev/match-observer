@@ -20,6 +20,7 @@ const App = () => {
   const matches = useMatches(games.game, filteredTournaments.filteredTournaments);
   
   console.log(matches);
+  // console.log(test);
 
   return (
     <>
