@@ -17,7 +17,7 @@ const Container = styled.div`
 const Tournament = styled.div`
 	text-align: center;
 	border-bottom: 2px solid rgb(93 94 90 / 60%);
-    padding-bottom: 15px;
+	padding-bottom: 15px;
 `;
 
 const MatchInfo = styled.div`
@@ -33,14 +33,12 @@ const Team = styled.div`
 	align-items: center;
 `;
 
-const TeamName = styled.span`
-
-`;
+const TeamName = styled.span``;
 
 const TeamLogo = styled.img`
 	margin-right: 10px;
 	max-width: 30px;
-	max-height: 30px;	
+	max-height: 30px;
 `;
 
 const MatchScore = styled.div`
@@ -49,15 +47,15 @@ const MatchScore = styled.div`
 	align-items: center;
 	flex-direction: column;
 	font-size: 20px;
-    letter-spacing: 20px;
-    font-weight: lighter;
+	letter-spacing: 20px;
+	font-weight: lighter;
 `;
 
 const Forfeit = styled.div`
 	text-align: center;
 	font-size: 16px;
-    letter-spacing: 5px;
-    font-weight: lighter;
+	letter-spacing: 5px;
+	font-weight: lighter;
 	color: red;
 	margin-top: 20px;
 `;
@@ -65,59 +63,62 @@ const Forfeit = styled.div`
 const Canceled = styled.div`
 	text-align: center;
 	font-size: 16px;
-    letter-spacing: 5px;
-    font-weight: lighter;
+	letter-spacing: 5px;
+	font-weight: lighter;
 `;
 
 const TournamentName = styled.span`
 	font-size: 14px;
 `;
 
-
 export const Match = ({ pastMatch }) => {
-
 	return (
-		<Container className="pure-g">
-			<Tournament className="pure-u-1-1">
-				<TournamentName> {`${pastMatch.league.name}  ${pastMatch.serie.full_name}`} </TournamentName>
-			</Tournament>
-			<MatchInfo className="pure-u-1-1">
-				<Team className="pure-u-1-3">
-					<TeamLogo src={ 
-						pastMatch.opponents[0].opponent.image_url !== null ? 
-							pastMatch.opponents[0].opponent.image_url 
-							: pastMatch.videogame.slug === 'cs-go' ?
-								not_have_logo_csgo
-								: pastMatch.videogame.slug === 'dota-2' ?
-									not_have_logo_dota2
+		pastMatch.opponents.length !== 0 && (
+			<Container className="pure-g">
+				<Tournament className="pure-u-1-1">
+					<TournamentName>{`${pastMatch.league.name}  ${pastMatch.serie.full_name}`}</TournamentName>
+				</Tournament>
+				<MatchInfo className="pure-u-1-1">
+					<Team className="pure-u-1-3">
+						<TeamLogo
+							src={
+								pastMatch.opponents[0].opponent.image_url !== null
+									? pastMatch.opponents[0].opponent.image_url
+									: pastMatch.videogame.slug === 'cs-go'
+									? not_have_logo_csgo
+									: pastMatch.videogame.slug === 'dota-2'
+									? not_have_logo_dota2
 									: not_have_logo_lol
-					} />
-					<TeamName>{ pastMatch.opponents[0].opponent.name }</TeamName>
-				</Team>
+							}
+						/>
+						<TeamName>{pastMatch.opponents[0].opponent.name}</TeamName>
+					</Team>
 
-				{
-					pastMatch.status === 'canceled' ?
-						<Canceled className="pure-u-1-3"> Canceled </Canceled> 
-					:
+					{pastMatch.status === 'canceled' ? (
+						<Canceled className="pure-u-1-3"> Canceled </Canceled>
+					) : (
 						<MatchScore className="pure-u-1-3">
 							{pastMatch.results[0].score} : {pastMatch.results[1].score}
 							{pastMatch.forfeit && <Forfeit className="pure-u-1-3"> Forfeited </Forfeit>}
 						</MatchScore>
-				}				
-				
-				<Team className="pure-u-1-3">
-				<TeamLogo src={ 
-					pastMatch.opponents[1].opponent.image_url !== null ? 
-							pastMatch.opponents[1].opponent.image_url 
-							: pastMatch.videogame.slug === 'cs-go' ?
-								not_have_logo_csgo
-								: pastMatch.videogame.slug === 'dota-2' ?
-									not_have_logo_dota2
+					)}
+
+					<Team className="pure-u-1-3">
+						<TeamLogo
+							src={
+								pastMatch.opponents[1].opponent.image_url !== null
+									? pastMatch.opponents[1].opponent.image_url
+									: pastMatch.videogame.slug === 'cs-go'
+									? not_have_logo_csgo
+									: pastMatch.videogame.slug === 'dota-2'
+									? not_have_logo_dota2
 									: not_have_logo_lol
-				} />
-					<TeamName>{ pastMatch.opponents[1].opponent.name  }</TeamName>
-				</Team>
-			</MatchInfo>
-		</Container>
+							}
+						/>
+						<TeamName>{pastMatch.opponents[1].opponent.name}</TeamName>
+					</Team>
+				</MatchInfo>
+			</Container>
+		)
 	);
-}
+};
